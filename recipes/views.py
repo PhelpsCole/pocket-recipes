@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Recipe
@@ -28,13 +28,7 @@ def createrecipe(request):
                               {'form_recipe':RecipeForm(),
                                'form_product':ProductForm()})
             form = RecipeForm(request.POST)
-            newrecipe = form.save(commit=False)
-            if newrecipe.title in [f.title for f in Recipe._meta.get_fields()]:
-                return render(request, 'recipes/createrecipe.html',
-                          {'form_recipe':RecipeForm(),
-                           'form_product':ProductForm(),
-                           'error':'Enter unique title'})
-            newrecipe.save()
+            form.save()
             return redirect('recipes:home')
         except ValueError:
             return render(request, 'recipes/createrecipe.html',

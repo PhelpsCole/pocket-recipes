@@ -2,11 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Recipe
-from .forms import RecipeForm
-from fridge.forms import ProductForm
+from .forms import RecipeForm, TextRecipeForm
+from products.forms import ProductForm
 
 def recipes(request):
-    recipes = Recipe.objects.order_by('title')
+    recipes = Recipe.objects.all()
     return render(request, 'recipes/home.html', {'recipes':recipes})
 
 def detail(request, recipe_id):
@@ -17,22 +17,21 @@ def detail(request, recipe_id):
 def createrecipe(request):
     if request.method == 'GET':
         return render(request, 'recipes/createrecipe.html',
-                      {'form_recipe':RecipeForm(),
-                       'form_product':ProductForm()})
+                      {'product_forms': ProductForm(),
+                       'text_form': TextRecipeForm()})
     else:
-        try:
-            if request.POST.get("name"):
-                form = ProductForm(request.POST)
-                form.save()
-                return render(request, 'recipes/createrecipe.html',
-                              {'form_recipe':RecipeForm(),
-                               'form_product':ProductForm()})
-            form = RecipeForm(request.POST)
-            form.save()
-            return redirect('recipes:home')
-        except ValueError:
+        option = request.POST.get("add")
+        if option == "product":
             return render(request, 'recipes/createrecipe.html',
-                          {'form_recipe':RecipeForm(),
-                           'form_product':ProductForm(),
-                           'error':'Bad data passed in. Try again.'})
-
+                          {'product_forms': ProductForm(),
+                           'text_form': TextRecipeForm()})
+        if option == "text":
+            try:
+                textrecipe = RecipeForm(request.POST)
+                textrecipe.save()
+                return render(request, 'recipes/createrecipe.html',
+                              {'form': ProductForm()})
+            except ValueError:
+                return render(request, 'recipes/createrecipe.html',
+                              {'form': ProductForm(),
+                               'error':'Bad data passed in. Try again.'})

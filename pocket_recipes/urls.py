@@ -24,7 +24,8 @@ urlpatterns = [
     path('signup/', account_views.signupuser, name='signupuser'),
     path('logout/', account_views.logoutuser, name='logoutuser'),
     path('login/', account_views.loginuser, name='loginuser'),
-    #Fridge and recipes
+    #Apps
+    path('products/', include('products.urls')),
     path('fridge/', include('fridge.urls')),
     path('recipes/', include('recipes.urls')),
 ]

@@ -1,21 +1,18 @@
 {% extends 'base.html'%}
 
 {% block content %}
-<h1>Create </h1>
+<h1>Create recipe</h1>
 
 <h2>{{ error }}</h2>
-
-<h3>Create product</h3>
+<h3>Fullfill this form to create new recipe</h3>
 <form method="POST">
     {% csrf_token %}
-    {{ form_product.as_p }}
-    <button type="submit"> Create product </button>
+    {{ product_form.as_p}}
+     <button type="submit" name="add" value="product">Add product</button>
 </form>
-
-<h3>Create recipe</h3>
 <form method="POST">
     {% csrf_token %}
-    {{ form_recipe.as_p }}
-    <button type="submit">Create</button>
+    {{ text_form.as_p}}
+     <button type="submit" name="add" value="text">Create recipe</button>
 </form>
 {% endblock %}

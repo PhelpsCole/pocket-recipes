@@ -12,7 +12,6 @@ Here should be recipes content
 {% endfor %}
 
 <form method="GET" action="{% url 'recipes:createrecipe' %}">
-    {% csrf_token %}
     <button type="submit"> Create new recipe </button>
 </form>
 {% endblock %}

@@ -38,7 +38,8 @@ def product(request, product_pk):
             product.delete()
             return redirect('products:home')
         try:
-            product = ProductForm(request.POST)
+            print(request.POST)
+            product = ProductForm(request.POST, instance=product)
             product.save()
             return redirect('products:home')
         except ValueError:

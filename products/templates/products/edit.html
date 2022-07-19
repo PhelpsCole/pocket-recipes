@@ -12,9 +12,10 @@
     <button type="submit">Save</button>
 </form>
 
-<form method="POST" action="{% url 'products:delete' product.id%}">
+<form method="POST" action="{% url 'products:product' product.id %}">
+    <input type="hidden" name="delete" value="delete">
     {% csrf_token %}
-    <button type="submit"> Delete </button>
+    <button type="submit" class=b_red> Delete </button>
 </form>
 
 {% endblock %}

@@ -8,36 +8,11 @@ def home(request):
     return render(request, 'products/home.html', {'products':products})
 
 @login_required
-def edit(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
-    if request.method == 'GET':
-        form = ProductForm(instance=product)
-        return render(request, 'products/edit.html', {'product':product, 'form':form})
-    else:
-        try:
-            form = ProductForm(request.POST, instance=product)
-            form.save()
-            return redirect('products:home')
-        except ValueError:
-            return render(request, 'products/edit.html',
-                          {'product':product,
-                           'form':form,
-                           'error':'Bad info. Try again.'})
-
-
-@login_required
-def delete(request, product_pk):
-    product = get_object_or_404(Product, pk=product_pk)
-    if request.method == 'POST':
-        product.delete()
-        return redirect('products:home')
-
-@login_required
 def create(request):
     if request.method == 'GET':
         return render(request, 'products/create.html',
                       {'form': ProductForm()})
-    else:
+    elif request.method == 'POST':
         try:
             product = ProductForm(request.POST)
             product.save()
@@ -46,3 +21,32 @@ def create(request):
             return render(request, 'products/create.html',
                           {'form': ProductForm(),
                            'error':'Bad data passed in. Try again.'})
+    else:
+        return render(request, 'products/create.html',
+                      {'form': ProductForm(),
+                       'error':'Incorrect http method. Try again.'})
+
+@login_required
+def product(request, product_pk):
+    product = get_object_or_404(Product, pk=product_pk)
+    if request.method == 'GET':
+        form = ProductForm(instance=product)
+        return render(request, 'products/edit.html',
+                      {'product':product, 'form':form})
+    elif request.method == 'POST':
+        if request.POST.get("delete"):
+            product.delete()
+            return redirect('products:home')
+        try:
+            product = ProductForm(request.POST)
+            product.save()
+            return redirect('products:home')
+        except ValueError:
+            return render(request, 'products/edit.html',
+                          {'form': ProductForm(),
+                           'error':'Bad data passed in. Try again.'})
+    else:
+        return render(request, 'products/edit.html',
+                      {'product':product,
+                       'form':form,
+                       'error':'Incorrect http method. Try again.'})

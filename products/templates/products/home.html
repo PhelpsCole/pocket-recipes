@@ -5,9 +5,14 @@
 <ul>
     {% for product in products %}
     <li>
-        <form method="GET" action="{% url 'products:edit' product.id %}">
+        <form method="GET" action="{% url 'products:product' product.id %}">
             {{ product.name }}
-            <button type="submit"> edit </button>
+            <button type="submit"> Edit </button>
+        </form>
+        <form method="POST" action="{% url 'products:product' product.id %}">
+         {% csrf_token %}
+            <input type="hidden" name="delete" value="delete">
+            <button type="submit" class=b_red> Delete </button>
         </form>
         </a>
     </li>

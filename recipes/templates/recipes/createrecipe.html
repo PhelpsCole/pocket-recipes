@@ -5,14 +5,22 @@
 
 <h2>{{ error }}</h2>
 <h3>Fullfill this form to create new recipe</h3>
-<form method="POST">
+<form method="POST" action="{% url 'recipes:add'%}">
     {% csrf_token %}
-    {{ product_form.as_p}}
-     <button type="submit" name="add" value="product">Add product</button>
+    <input type="hidden" name="product_num" value={{ product_num }}>
+    <button type="submit">Increase product number</button>
+</form>
+<form method="POST" action="{% url 'recipes:delete'%}">
+    {% csrf_token %}
+    <input type="hidden" name="product_num" value={{ product_num }}>
+    <button type="submit">Decrease product number</button>
 </form>
 <form method="POST">
     {% csrf_token %}
+    {% for product_form in product_formset%}
+        {{ product_form.as_p}}<br>
+    {% endfor %}
     {{ text_form.as_p}}
-     <button type="submit" name="add" value="text">Create recipe</button>
+        <button type="submit" name="add" value="product">Create recipe</button>
 </form>
 {% endblock %}

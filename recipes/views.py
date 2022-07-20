@@ -20,20 +20,19 @@ def recipes(request):
             product_num = int(request.POST["product_num"])
         except:
             pass
-        if request.POST.get("option"):
-            if request.POST["option"] == "increase":
-                product_num += 1
-            else:
-                product_num -= 1
-                if product_num < 1:
-                    product_num = 1
-        try:
-            ProductFormSet = formset_factory(ProductForm, extra=product_num)
-            return render(request, 'recipes/createrecipe.html',
-                          {'product_formset': ProductFormSet,
-                           'text_form': TextRecipeForm(),
-                           'product_num':product_num})
-        except:
-            pass
+        option = request.POST.get("option")
+        if option =="increase":
+            product_num += 1
+        elif option =="decrease":
+            product_num -= 1
+            if product_num < 1:
+                product_num = 1
+        elif option =="create":
+            print(request.POST)
+        ProductFormSet = formset_factory(ProductForm, extra=product_num)
+        return render(request, 'recipes/createrecipe.html',
+                      {'product_formset': ProductFormSet,
+                       'text_form': TextRecipeForm(),
+                       'product_num':product_num})
     else:
         pass

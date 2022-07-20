@@ -11,7 +11,9 @@ Here should be recipes content
 <p>{{ recipe.text.description|striptags|truncatechars:100 }}</p>
 {% endfor %}
 
-<form method="GET" action="{% url 'recipes:createrecipe' %}">
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="product_num" value="1">
     <button type="submit"> Create new recipe </button>
 </form>
 {% endblock %}

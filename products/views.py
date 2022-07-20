@@ -4,15 +4,13 @@ from .models import Product
 from .forms import ProductForm
 
 def home(request):
-    products = Product.objects.all()
-    return render(request, 'products/home.html', {'products':products})
-
-@login_required
-def create(request):
     if request.method == 'GET':
-        return render(request, 'products/create.html',
-                      {'form': ProductForm()})
+        products = Product.objects.all()
+        return render(request, 'products/home.html', {'products':products})
     elif request.method == 'POST':
+        if request.POST.get("enter"):
+            return render(request, 'products/create.html',
+                          {'form': ProductForm()})
         try:
             product = ProductForm(request.POST)
             product.save()
@@ -38,7 +36,6 @@ def product(request, product_pk):
             product.delete()
             return redirect('products:home')
         try:
-            print(request.POST)
             product = ProductForm(request.POST, instance=product)
             product.save()
             return redirect('products:home')

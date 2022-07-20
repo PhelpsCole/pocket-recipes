@@ -10,7 +10,7 @@
             <button type="submit"> Edit </button>
         </form>
         <form method="POST" action="{% url 'products:product' product.id %}">
-         {% csrf_token %}
+            {% csrf_token %}
             <input type="hidden" name="delete" value="delete">
             <button type="submit" class=b_red> Delete </button>
         </form>
@@ -19,7 +19,9 @@
     {% endfor %}
 </ul>
 <h3>MAKE TO THIS SECTION SPECIAL ACCESS</h3>
-<form method="GET" action="{% url 'products:create' %}">
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="enter" value="enter">
     <button type="submit"> Create new product </button>
 </form>
 {% endblock %}

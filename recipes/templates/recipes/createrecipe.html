@@ -5,13 +5,15 @@
 
 <h2>{{ error }}</h2>
 <h3>Fullfill this form to create new recipe</h3>
-<form method="POST" action="{% url 'recipes:add'%}">
+<form method="POST">
     {% csrf_token %}
+    <input type="hidden" name="option" value="increase">
     <input type="hidden" name="product_num" value={{ product_num }}>
     <button type="submit">Increase product number</button>
 </form>
-<form method="POST" action="{% url 'recipes:delete'%}">
+<form method="POST">
     {% csrf_token %}
+    <input type="hidden" name="option" value="decrease">
     <input type="hidden" name="product_num" value={{ product_num }}>
     <button type="submit">Decrease product number</button>
 </form>

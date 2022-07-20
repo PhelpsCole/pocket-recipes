@@ -13,8 +13,7 @@ class Product(models.Model):
         ('teaspoon', 'teaspoon'),
         ('ounce', 'ounce')
     ]
-    unit_of_measurement = models.CharField(max_length=10,
-                                           choices=WEIGHT_CHOICES,
+    unit_of_measurement = models.TextField(choices=WEIGHT_CHOICES,
                                            blank=False,
                                            default='kg')
 
